@@ -1,35 +1,64 @@
 # The-Blind-Flight---Synapse-Drive-PS1-
 
-# 🚁 The Blind Flight: Synapse Drive PS 1
+![Language](https://img.shields.io/badge/Language-Python_3.11-blue?style=for-the-badge&logo=python)
+![Framework](https://img.shields.io/badge/Framework-PyTorch_2.0-red?style=for-the-badge&logo=pytorch)
+![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-red)
-![Status](https://img.shields.io/badge/Status-Completed-success)
-
-## 📖 Overview
-**The Blind Flight** is an autonomous pathfinding project designed to navigate a grid-based map where the terrain is visually distinct but unlabeled. 
-
-This solution employs a **hybrid Artificial Intelligence approach**, combining **Deep Learning (Ensemble CNNs)** for visual terrain recognition and **Graph Theory (Dijkstra's Algorithm)** for optimal route planning. The system is robust against noisy data, utilizing advanced inference techniques like Test-Time Augmentation (TTA) and heuristic post-processing.
-
----
-
-## 🚀 Key Features
-* **🧠 Deep Ensemble Learning:** Combines predictions from **ResNet-18** and **EfficientNet-B0** to achieve >99% classification accuracy on terrain tiles.
-* **🔄 Test-Time Augmentation (TTA):** Uses horizontal flipping during inference to smooth out model variance and improve prediction stability.
-* **🌍 Biome Detection:** Automatically detects the map environment (Forest, Desert, or Lab) using pixel-level color analysis to dynamically adjust movement costs.
-* **📍 GPS Fix Algorithm:** A custom heuristic that ensures valid Start and End points exist on the grid, preventing pathfinding failures even if the model misses a detection.
-* **⚡ Smart Pathfinding:** Implements Dijkstra's algorithm with variable edge weights based on terrain friction and velocity boosts.
-
----
-
-## 🛠️ Tech Stack
-* **Language:** Python 3.x
-* **Deep Learning:** PyTorch, Torchvision
-* **Image Processing:** PIL (Pillow), NumPy
-* **Data Handling:** Pandas, CSV, JSON
-* **Progress Tracking:** Tqdm
+##  Table of Contents
+1. [Project Overview](#-project-overview)
+2. [Key Features](#-key-features)
+3. [Directory Structure](#-directory-structure)
+4. [Prerequisites & Installation](#-prerequisites--installation)
+5. [How to Run](#-how-to-run)
+6. [Technical Architecture](#-technical-architecture)
+    - [Data Pipeline](#1-data-pipeline-slicing--preprocessing)
+    - [Deep Learning Models](#2-deep-learning-ensemble)
+    - [Inference Strategy (TTA & GPS Fix)](#3-inference-strategy-tta--gps-fix)
+    - [Pathfinding Logic (Biomes & Dijkstra)](#4-pathfinding-logic)
+7. [Results](#-results)
+8. [Author](#-author)
 
 ---
 
-## 📂 Project Structure
+##  Project Overview
+**The Blind Flight** is an autonomous navigation system developed for the Synapse Drive challenge. The objective is to navigate an agent from a **Start Point (Index 3)** to an **End Point (Index 4)** on a $20 \times 20$ grid map.
+
+**The Challenge:** The test maps are provided as raw images without any labels. The terrain (obstacles, roads, boosters) must be visually recognized by the AI before a path can be calculated.
+
+**The Solution:** This project implements a **Vision-Language-Planning** pipeline:
+1.  **Vision:** An ensemble of ResNet-18 and EfficientNet-B0 classifies map tiles.
+2.  **Logic:** Heuristic algorithms detect "Biomes" (Forest/Desert/Lab) to determine movement costs.
+3.  **Planning:** Dijkstra's algorithm computes the optimal path, accounting for velocity boosts and terrain friction.
+
+---
+
+##  Key Features
+* **Ensemble Neural Networks:** Averages predictions from two distinct architectures (ResNet + EfficientNet) to maximize classification accuracy (>99%).
+* **Test-Time Augmentation (TTA):** Uses horizontal flipping during inference to eliminate orientation bias.
+* **Robust "GPS Fix":** A fail-safe mechanism that forces valid Start/End points onto the grid if the model misses them, ensuring 100% submission validity.
+* **Adaptive Biome Detection:** Uses pixel-level color analysis to classify the global environment and adjust traversal weights dynamically.
+* **Class Imbalance Handling:** Implements `WeightedRandomSampler` during training to ensure rare classes (Start/End points) are learned effectively.
+
+---
+
+##  Directory Structure
+
+```plaintext
+The-Blind-Flight-Synapse-Drive-PS1/
+├── SynapseDrive_Dataset/           # Raw Input Data
+│   ├── train/                      # Training Images & JSON Labels
+│   ├── test/                       # Test Images & Velocity JSONs
+│   └── ...
+├── train_dataset_tiles/            # (Auto-Generated) 224x224 Sliced Tiles
+│   ├── 0/                          # Class 0: Obstacles
+│   ├── 1/                          # Class 1: Background
+│   ├── 2/                          # Class 2: Traversable
+│   ├── 3/                          # Class 3: Start Point
+│   └── 4/                          # Class 4: End Point
+├── tile_classifier_resnet.pth      # Saved Model Weights (ResNet)
+├── tile_classifier_effnet.pth      # Saved Model Weights (EfficientNet)
+├── submission.csv                  # Final Generated Path Strings
+├── the-blind-flight.ipynb          # Main Execution Notebook
+└── README.md                       # Project Documentation
 
