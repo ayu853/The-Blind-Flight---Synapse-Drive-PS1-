@@ -60,12 +60,7 @@ Both models were initialized with pretrained **ImageNet** weights to leverage tr
 * **Imbalance Handling:** A `WeightedRandomSampler` oversampled rare classes (Start/End) and undersampled background tiles to prevent bias.
 * **Scheduler:** `ReduceLROnPlateau` decayed the learning rate by a factor of 0.5 when validation accuracy plateaued for 2 epochs.
 * **Epochs:** Trained for 8 epochs.
-  ```python
-# Code Snippet: Class Imbalance Handling
-counts = np.bincount(targets)
-weights = 1. / np.maximum(counts, 1)
-sample_weights = [weights[t] for t in targets]
-sampler = WeightedRandomSampler(sample_weights, len(sample_weights))
+
 
 ---
 
@@ -88,7 +83,7 @@ A critical fail-safe for when classification errors miss a Start or End node:
 
 ---
 
-## 🗺️ Path Planning & Navigation
+##  Path Planning & Navigation
 
 ### Biome Detection
 Traversal costs depend on the environment. A heuristic pixel analysis of the global color distribution classifies the map into three biomes:
