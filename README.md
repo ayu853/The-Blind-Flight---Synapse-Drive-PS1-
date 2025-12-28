@@ -40,37 +40,3 @@
 * **Adaptive Biome Detection:** Uses pixel-level color analysis to classify the global environment and adjust traversal weights dynamically.
 * **Class Imbalance Handling:** Implements `WeightedRandomSampler` during training to ensure rare classes (Start/End points) are learned effectively.
 
----
-
-##  Directory Structure
-
-```plaintext
-The-Blind-Flight-Synapse-Drive-PS1/
-├── SynapseDrive_Dataset/           # Raw Input Data
-│   ├── train/                      # Training Images & JSON Labels
-│   ├── test/                       # Test Images & Velocity JSONs
-│   └── ...
-├── train_dataset_tiles/            # (Auto-Generated) 224x224 Sliced Tiles
-│   ├── 0/                          # Class 0: Obstacles
-│   ├── 1/                          # Class 1: Background
-│   ├── 2/                          # Class 2: Traversable
-│   ├── 3/                          # Class 3: Start Point
-│   └── 4/                          # Class 4: End Point
-├── tile_classifier_resnet.pth      # Saved Model Weights (ResNet)
-├── tile_classifier_effnet.pth      # Saved Model Weights (EfficientNet)
-├── submission.csv                  # Final Generated Path Strings
-├── the-blind-flight.ipynb          # Main Execution Notebook
-└── README.md                       # Project Documentation
-
-##  Prerequisites & Installation
-
-### System Requirements
-* **Python:** 3.8+
-* **GPU:** Recommended (NVIDIA T4 or better) for faster training.
-* **RAM:** 16GB+ recommended for dataset handling.
-
-### Installation
-1. **Clone the Repository:**
-   ```bash
-   git clone [https://github.com/ayu853/The-Blind-Flight---Synapse-Drive-PS1-.git](https://github.com/ayu853/The-Blind-Flight---Synapse-Drive-PS1-.git)
-   cd The-Blind-Flight---Synapse-Drive-PS1-
