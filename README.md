@@ -62,3 +62,15 @@ The-Blind-Flight-Synapse-Drive-PS1/
 ├── the-blind-flight.ipynb          # Main Execution Notebook
 └── README.md                       # Project Documentation
 
+##  Prerequisites & Installation
+
+### System Requirements
+* **Python:** 3.8+
+* **GPU:** Recommended (NVIDIA T4 or better) for faster training.
+* **RAM:** 16GB+ recommended for dataset handling.
+
+### Installation
+1. **Clone the Repository:**
+   ```bash
+   git clone [https://github.com/ayu853/The-Blind-Flight---Synapse-Drive-PS1-.git](https://github.com/ayu853/The-Blind-Flight---Synapse-Drive-PS1-.git)
+   cd The-Blind-Flight---Synapse-Drive-PS1-
