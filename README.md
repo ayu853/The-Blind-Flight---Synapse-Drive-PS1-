@@ -70,6 +70,11 @@ Both models were initialized with pretrained **ImageNet** weights to leverage tr
 During inference, predictions from both ResNet and EfficientNet are averaged to reduce variance and smooth out individual model errors.
 $$P_{final} = \frac{P_{ResNet} + P_{EfficientNet}}{2}$$
 
+# Code Snippet: Ensemble Averaging
+out1 = torch.softmax(m1(inp), dim=1).cpu().numpy() # ResNet Output
+out2 = torch.softmax(m2(inp), dim=1).cpu().numpy() # EffNet Output
+avg = (out1 + out2) / 2.0                          # Ensemble Result
+
 ### Test-Time Augmentation (TTA)
 To improve robustness against orientation, TTA was applied:
 1. **Forward Pass:** Predict on the original image.
